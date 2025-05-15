@@ -1,0 +1,14 @@
+package com.georgina.farmshop.repository;
+
+import com.georgina.farmshop.model.Product;
+import com.georgina.farmshop.model.Review;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface ReviewRepository extends JpaRepository<Review,Long> {
+
+    List<Review> findByProductId(Long productId);
+
+
+}
