@@ -2,7 +2,7 @@ package com.georgina.farmshop.service.impl;
 
 import com.georgina.farmshop.configuration.JwtProvider;
 import com.georgina.farmshop.domain.AccountStatus;
-import com.georgina.farmshop.domain.USER_ROLES;
+import com.georgina.farmshop.domain.UserRoles;
 import com.georgina.farmshop.exceptions.SellerException;
 import com.georgina.farmshop.model.Address;
 import com.georgina.farmshop.model.Seller;
@@ -46,7 +46,7 @@ public class SellerServiceImpl implements SellerService {
         newSeller.setSellerName(seller.getSellerName());
         newSeller.setPickupAddress(seller.getPickupAddress());
         newSeller.setGSTIN(seller.getGSTIN());
-        newSeller.setRole(USER_ROLES.ROLE_SELLER);
+        newSeller.setRole(UserRoles.ROLE_SELLER);
         newSeller.setPhoneNumber(seller.getPhoneNumber());
         newSeller.setBankDetails(seller.getBankDetails());
         newSeller.setBusinessDetails(seller.getBusinessDetails());

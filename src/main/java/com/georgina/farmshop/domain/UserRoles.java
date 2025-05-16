@@ -1,6 +1,6 @@
 package com.georgina.farmshop.domain;
 
-public enum USER_ROLES {
+public enum UserRoles {
 
     ROLE_ADMIN,
     ROLE_CUSTOMER,

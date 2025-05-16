@@ -1,6 +1,6 @@
 package com.georgina.farmshop.service.impl;
 
-import com.georgina.farmshop.domain.USER_ROLES;
+import com.georgina.farmshop.domain.UserRoles;
 import com.georgina.farmshop.model.Seller;
 import com.georgina.farmshop.model.User;
 import com.georgina.farmshop.repository.SellerRepository;
@@ -45,8 +45,8 @@ public class CustomUserServiceImpl implements UserDetailsService {
         throw new UsernameNotFoundException("User or Seller not found with this email: " + username);
     }
 
-    private UserDetails buildUserDetails(String email, String password, USER_ROLES role) {
-        if(role==null) role=USER_ROLES.ROLE_CUSTOMER; // default role is customer
+    private UserDetails buildUserDetails(String email, String password, UserRoles role) {
+        if(role==null) role= UserRoles.ROLE_CUSTOMER; // default role is customer
 
         List<GrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority(role.toString()));

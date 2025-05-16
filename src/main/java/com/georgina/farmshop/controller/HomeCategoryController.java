@@ -30,13 +30,13 @@ public class HomeCategoryController {
         return new ResponseEntity<>(homePage, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/home-category")
+    @GetMapping("/admin/home-category")
     public ResponseEntity<List<HomeCategory>> getHomeCategory() throws Exception{
         List<HomeCategory> categories = homeCategoryService.getAllHomeCategories();
         return ResponseEntity.ok(categories);
     }
 
-    @PatchMapping("/home-category/{id}")
+    @PatchMapping("/admin/home-category/{id}")
     public ResponseEntity<HomeCategory> updateHomeCategory(
             @PathVariable Long id,
             @RequestBody HomeCategory homeCategory) throws Exception{

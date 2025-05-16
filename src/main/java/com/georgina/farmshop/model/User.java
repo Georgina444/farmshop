@@ -2,7 +2,7 @@ package com.georgina.farmshop.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.georgina.farmshop.domain.USER_ROLES;
+import com.georgina.farmshop.domain.UserRoles;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,7 +27,7 @@ public class User {
     private String email;
     private String fullName;
     private String phoneNumber;
-    private USER_ROLES role = USER_ROLES.ROLE_CUSTOMER;
+    private UserRoles role = UserRoles.ROLE_CUSTOMER;
 
     // have the address saved on their profile
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

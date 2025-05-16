@@ -1,7 +1,7 @@
 package com.georgina.farmshop.service.impl;
 
 import com.georgina.farmshop.configuration.JwtProvider;
-import com.georgina.farmshop.domain.USER_ROLES;
+import com.georgina.farmshop.domain.UserRoles;
 import com.georgina.farmshop.model.Cart;
 import com.georgina.farmshop.model.Seller;
 import com.georgina.farmshop.model.User;
@@ -26,11 +26,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -47,14 +45,14 @@ public class AuthServiceImpl implements AuthService {
     private final SellerRepository sellerRepository;
 
     @Override
-    public void sentLoginOrSignUpOtp(String email, USER_ROLES role) throws Exception {
+    public void sentLoginOrSignUpOtp(String email, UserRoles role) throws Exception {
         String SIGNING_PREFIX="signing_";
 
 
         if(email.startsWith(SIGNING_PREFIX)){
             email=email.substring(SIGNING_PREFIX.length());
 
-            if(role.equals(USER_ROLES.ROLE_SELLER)) {
+            if(role.equals(UserRoles.ROLE_SELLER)) {
                 Seller seller = sellerRepository.findByEmail(email);
                 if(seller==null){
                     throw new Exception("Seller not found.");
@@ -104,7 +102,7 @@ public class AuthServiceImpl implements AuthService {
             User createdUser = new User();
             createdUser.setEmail(request.getEmail());
             createdUser.setFullName(request.getFullName());
-            createdUser.setRole(USER_ROLES.ROLE_CUSTOMER);
+            createdUser.setRole(UserRoles.ROLE_CUSTOMER);
             createdUser.setPhoneNumber("0876638293");
             createdUser.setPassword(passwordEncoder.encode(request.getOtp()));
 
@@ -117,7 +115,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(USER_ROLES.ROLE_CUSTOMER.toString()));
+        authorities.add(new SimpleGrantedAuthority(UserRoles.ROLE_CUSTOMER.toString()));
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(request.getEmail(),null,authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -141,7 +139,7 @@ public class AuthServiceImpl implements AuthService {
         Collection<?extends GrantedAuthority> authorities = authentication.getAuthorities();
         String roleName = authorities.isEmpty()?null:authorities.iterator().next().getAuthority();
 
-        authResponse.setRole(USER_ROLES.valueOf(roleName));
+        authResponse.setRole(UserRoles.valueOf(roleName));
         return authResponse;
     }
 

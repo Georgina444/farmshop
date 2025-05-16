@@ -1,6 +1,6 @@
 package com.georgina.farmshop.request;
 
-import com.georgina.farmshop.domain.USER_ROLES;
+import com.georgina.farmshop.domain.UserRoles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +12,6 @@ public class LoginOtpRequest {
 
     private String email;
     private String otp;
-    private USER_ROLES role;
+    private UserRoles role;
 
 }

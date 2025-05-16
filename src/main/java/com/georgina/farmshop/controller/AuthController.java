@@ -1,8 +1,6 @@
 package com.georgina.farmshop.controller;
 
-import com.georgina.farmshop.domain.USER_ROLES;
-import com.georgina.farmshop.model.User;
-import com.georgina.farmshop.model.VerificationCode;
+import com.georgina.farmshop.domain.UserRoles;
 import com.georgina.farmshop.repository.UserRepository;
 import com.georgina.farmshop.request.LoginOtpRequest;
 import com.georgina.farmshop.request.LoginRequest;
@@ -36,7 +34,7 @@ public class AuthController {
         AuthResponse response = new AuthResponse();
         response.setJwt(jwt);
         response.setMessage("Successful registration");
-        response.setRole(USER_ROLES.ROLE_CUSTOMER);
+        response.setRole(UserRoles.ROLE_CUSTOMER);
 
         return ResponseEntity.ok(response);
     }

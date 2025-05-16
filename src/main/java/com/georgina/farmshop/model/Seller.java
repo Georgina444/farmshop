@@ -1,7 +1,7 @@
 package com.georgina.farmshop.model;
 
 import com.georgina.farmshop.domain.AccountStatus;
-import com.georgina.farmshop.domain.USER_ROLES;
+import com.georgina.farmshop.domain.UserRoles;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,7 +37,7 @@ public class Seller {
 
     private String GSTIN; //??
 
-    private USER_ROLES role = USER_ROLES.ROLE_SELLER;
+    private UserRoles role = UserRoles.ROLE_SELLER;
     private boolean isEmailVerified=false;
 
     private AccountStatus accountStatus = AccountStatus.PENDING_VERIFICATION;
