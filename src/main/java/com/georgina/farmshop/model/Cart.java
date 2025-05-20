@@ -13,29 +13,30 @@ import java.util.Set;
 @NoArgsConstructor
 public class Cart {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @OneToOne
-    private User user;
+  @OneToOne
+  private User user;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true) // reflects changes made in the cart
-    private Set<CartItem> cartItems = new HashSet<>();
+  @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+  // reflects changes made in the cart
+  private Set<CartItem> cartItems = new HashSet<>();
 
-    private double totalSellingPrice;
+  private double totalSellingPrice;
 
-    private int numberOfItems;
+  private int numberOfItems;
 
-    // before discounts or coupons
-    // e.g. you saved 20$ (totalMrp - totalSellingPrice)
-    private double totalMrpPrice;
+  // before discounts or coupons
+  // e.g. you saved 20$ (totalMrp - totalSellingPrice)
+  private double totalMrpPrice;
 
 //    @Column(name = "total_price")
 //    private double totalPrice;
 
-    private int discount;
+  private int discount;
 
-    // if the user has any coupon applied
-    private String couponCode;
+  // if the user has any coupon applied
+  private String couponCode;
 }

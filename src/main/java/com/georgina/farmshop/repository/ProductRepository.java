@@ -9,18 +9,18 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long>,
-    JpaSpecificationExecutor<Product>{
+    JpaSpecificationExecutor<Product> {
 
-    List<Product> findBySellerId(Long id);
+  List<Product> findBySellerId(Long id);
 
 
-    @Query(
-            "SELECT p FROM Product p " +
-                    " WHERE ( :query IS NULL " +
-                    "     OR LOWER(p.productName)  LIKE LOWER(CONCAT('%', :query, '%')) ) " +
-                    "    OR ( :query IS NULL " +
-                    "     OR LOWER(p.category.categoryId) LIKE LOWER(CONCAT('%', :query, '%')) )"
-    )
-    List<Product> searchProduct(@Param("query") String query);
+  @Query(
+      "SELECT p FROM Product p " +
+          " WHERE ( :query IS NULL " +
+          "     OR LOWER(p.productName)  LIKE LOWER(CONCAT('%', :query, '%')) ) " +
+          "    OR ( :query IS NULL " +
+          "     OR LOWER(p.category.categoryId) LIKE LOWER(CONCAT('%', :query, '%')) )"
+  )
+  List<Product> searchProduct(@Param("query") String query);
 
 }

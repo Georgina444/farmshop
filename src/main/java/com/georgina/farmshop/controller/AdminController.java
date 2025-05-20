@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class AdminController {
 
-    private final SellerService sellerService;
+  private final SellerService sellerService;
 
 
-    @PatchMapping("/seller/{id}/status/{status}")
-    public ResponseEntity<Seller> updateSellerStatus(
-            @PathVariable Long id,
-            @PathVariable AccountStatus status) throws Exception{
+  @PatchMapping("/seller/{id}/status/{status}")
+  public ResponseEntity<Seller> updateSellerStatus(
+      @PathVariable Long id,
+      @PathVariable AccountStatus status) throws Exception {
 
-        Seller updatedSeller = sellerService.updateSellerAccountStatus(id, status);
-        return ResponseEntity.ok(updatedSeller);
-    }
+    Seller updatedSeller = sellerService.updateSellerAccountStatus(id, status);
+    return ResponseEntity.ok(updatedSeller);
+  }
 }

@@ -19,23 +19,23 @@ import java.util.List;
 @RequestMapping("/api/transactions")
 public class TransactionController {
 
-    private final TransactionService transactionService;
-    private final SellerService sellerService;
+  private final TransactionService transactionService;
+  private final SellerService sellerService;
 
-    @GetMapping("/seller")
-    public ResponseEntity<List<Transaction>> getTransactionBySellerId(
-            @RequestHeader("Authorization")String jwt) throws Exception{
+  @GetMapping("/seller")
+  public ResponseEntity<List<Transaction>> getTransactionBySellerId(
+      @RequestHeader("Authorization") String jwt) throws Exception {
 
-        Seller seller = sellerService.getSellerProfile(jwt);
+    Seller seller = sellerService.getSellerProfile(jwt);
 
-        List<Transaction> transactions = transactionService.getTransactionsBySellerId(seller);
-        return ResponseEntity.ok(transactions);
-    }
+    List<Transaction> transactions = transactionService.getTransactionsBySellerId(seller);
+    return ResponseEntity.ok(transactions);
+  }
 
-    @GetMapping
-    public ResponseEntity<List<Transaction>> getAllTransactions(){
-        List<Transaction> transactions = transactionService.getAllTransaction();
-        return ResponseEntity.ok(transactions);
-    }
+  @GetMapping
+  public ResponseEntity<List<Transaction>> getAllTransactions() {
+    List<Transaction> transactions = transactionService.getAllTransaction();
+    return ResponseEntity.ok(transactions);
+  }
 
 }

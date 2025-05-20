@@ -3,9 +3,8 @@ package com.georgina.farmshop.controller;
 import com.georgina.farmshop.domain.PaymentMethod;
 import com.georgina.farmshop.model.*;
 import com.georgina.farmshop.repository.PaymentOrderRepository;
-import com.georgina.farmshop.response.PaymentLinkResponse;
+import com.georgina.farmshop.model.response.PaymentLinkResponse;
 import com.georgina.farmshop.service.*;
-import com.stripe.model.PaymentLink;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,87 +18,86 @@ import java.util.Set;
 @RequestMapping("/api/orders")
 public class OrderController {
 
-    private final OrderService orderService;
-    private final UserService userService;
-    private final CartService cartService;
-    private final SellerService sellerService;
-    private final SellerReportService sellerReportService;
-    private final PaymentService paymentService;
-    private final PaymentOrderRepository paymentOrderRepository;
+  private final OrderService orderService;
+  private final UserService userService;
+  private final CartService cartService;
+  private final SellerService sellerService;
+  private final SellerReportService sellerReportService;
+  private final PaymentService paymentService;
+  private final PaymentOrderRepository paymentOrderRepository;
 
 
+  @PostMapping()
+  public ResponseEntity<PaymentLinkResponse> createOrderHandler(
+      @RequestBody Address shippingAddress,
+      @RequestParam PaymentMethod paymentMethod,
+      @RequestHeader("Authorization") String jwt)
+      throws Exception {
 
-    @PostMapping()
-    public ResponseEntity<PaymentLinkResponse> createOrderHandler(
-            @RequestBody Address shippingAddress,
-            @RequestParam PaymentMethod paymentMethod,
-            @RequestHeader("Authorization")String jwt)
-        throws Exception{
+    User user = userService.findUserByJwtToken(jwt);
+    Cart cart = cartService.findUserCart(user);
+    Set<Order> orders = orderService.createOrder(user, shippingAddress, cart);
 
-        User user = userService.findUserByJwtToken(jwt);
-        Cart cart = cartService.findUserCart(user);
-        Set<Order> orders = orderService.createOrder(user, shippingAddress, cart);
+    PaymentOrderEntity paymentOrderEntity = new PaymentOrderEntity();
+    PaymentLinkResponse res = new PaymentLinkResponse();
 
-        PaymentOrder paymentOrder = new PaymentOrder();
-        PaymentLinkResponse res = new PaymentLinkResponse();
+    String paymentUrl = paymentService.createStripePaymentLink(user,
+        paymentOrderEntity.getAmount(),
+        paymentOrderEntity.getId());
 
-        String paymentUrl = paymentService.createStripePaymentLink(user,
-                paymentOrder.getAmount(),
-                paymentOrder.getId());
+    res.setPaymentLinkId(paymentUrl);
+    return new ResponseEntity<>(res, HttpStatus.OK);
+  }
 
-        res.setPayment_link_id(paymentUrl);
-        return new ResponseEntity<>(res, HttpStatus.OK);
-    }
+  @GetMapping("/user")
+  public ResponseEntity<List<Order>> usersOrderHistoryHandler(
+      @RequestHeader("Authorization")
+      String jwt) throws Exception {
 
-    @GetMapping("/user")
-    public ResponseEntity<List<Order>> usersOrderHistoryHandler(
-            @RequestHeader("Authorization")
-            String jwt) throws Exception{
-
-        User user = userService.findUserByJwtToken(jwt);
-        List<Order> orders = orderService.usersOrderHistory(user.getId());
-        return new ResponseEntity<>(orders,HttpStatus.ACCEPTED);
-    }
+    User user = userService.findUserByJwtToken(jwt);
+    List<Order> orders = orderService.usersOrderHistory(user.getId());
+    return new ResponseEntity<>(orders, HttpStatus.ACCEPTED);
+  }
 
 
-    @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getOrderById(
-            @PathVariable Long orderId,
-            @RequestHeader("Authorization") String jwt)
-        throws Exception{
+  @GetMapping("/{orderId}")
+  public ResponseEntity<Order> getOrderById(
+      @PathVariable Long orderId,
+      @RequestHeader("Authorization") String jwt)
+      throws Exception {
 
-        User user = userService.findUserByJwtToken(jwt);
-        Order orders = orderService.findOrderById(orderId);
-        return new ResponseEntity<>(orders, HttpStatus.ACCEPTED);
-    }
+    User user = userService.findUserByJwtToken(jwt);
+    Order orders = orderService.findOrderById(orderId);
+    return new ResponseEntity<>(orders, HttpStatus.ACCEPTED);
+  }
 
-    @GetMapping("/item/{orderItemId}")
-    public ResponseEntity<OrderItem> getOrderItemById(
-            @PathVariable Long orderItemId,
-            @RequestHeader("Authorization") String jwt)
-        throws Exception{
+  @GetMapping("/item/{orderItemId}")
+  public ResponseEntity<OrderItem> getOrderItemById(
+      @PathVariable Long orderItemId,
+      @RequestHeader("Authorization") String jwt)
+      throws Exception {
 
-        User user = userService.findUserByJwtToken(jwt);
-        OrderItem orderItem = orderService.getOrderItemById(orderItemId);
-        return new ResponseEntity<>(orderItem, HttpStatus.ACCEPTED);
-    }
+    User user = userService.findUserByJwtToken(jwt);
+    OrderItem orderItem = orderService.getOrderItemById(orderItemId);
+    return new ResponseEntity<>(orderItem, HttpStatus.ACCEPTED);
+  }
 
-    @PutMapping("/{orderId}/cancel")
-    public ResponseEntity<Order> cancelOrder(
-            @PathVariable Long orderId,
-            @RequestHeader("Authorization") String jwt)
-        throws Exception {
-        User user = userService.findUserByJwtToken(jwt);
-        Order order = orderService.cancelOrder(orderId, user);
+  @PutMapping("/{orderId}/cancel")
+  public ResponseEntity<Order> cancelOrder(
+      @PathVariable Long orderId,
+      @RequestHeader("Authorization") String jwt)
+      throws Exception {
+    User user = userService.findUserByJwtToken(jwt);
+    Order order = orderService.cancelOrder(orderId, user);
 
-        Seller seller = sellerService.getSellerById(order.getSellerId());
-        SellerReport report = sellerReportService.getSellerReport(seller);
+    Seller seller = sellerService.getSellerById(order.getSellerId());
+    SellerReport report = sellerReportService.getSellerReport(seller);
 
-        report.setCanceledOrders(report.getCanceledOrders());
-        report.setTotalRefunds(report.getTotalRefunds()+order.getTotalSellingPrice());
-        sellerReportService.updateSellerReport(report);
+    report.setCanceledOrders(report.getCanceledOrders());
+    report.setTotalRefunds(report.getTotalRefunds() + order.getTotalSellingPrice());
+    sellerReportService.updateSellerReport(report);
 
-        return ResponseEntity.ok(order);
-    }
+    return ResponseEntity.ok(order);
+  }
 
 }

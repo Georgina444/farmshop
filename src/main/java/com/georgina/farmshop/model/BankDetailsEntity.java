@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankDetails {
+public class BankDetailsEntity {
 
-    private String accountNumber;
-    private String accountHolderName;
-    private String ifscCode;
+  private String accountNumber;
+  private String accountHolderName;
+  private String ifscCode;
 }

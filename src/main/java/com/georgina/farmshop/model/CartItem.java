@@ -15,24 +15,24 @@ import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 @EqualsAndHashCode
 public class CartItem {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @ManyToOne  // one cart can have multiple items
-    @JsonIgnore
-    private Cart cart;
+  @ManyToOne  // one cart can have multiple items
+  @JsonIgnore
+  private Cart cart;
 
-    @ManyToOne
-    private Product product;
+  @ManyToOne
+  private Product product;
 
-    private String size;
+  private String size;
 
-    private int quantity = 1;
+  private int quantity = 1;
 
-    private Integer mrpPrice;
+  private Integer mrpPrice;
 
-    private Integer sellingPrice;
+  private Integer sellingPrice;
 
-    private long userId;
+  private long userId;
 }

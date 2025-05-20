@@ -13,33 +13,33 @@ import lombok.*;
 @EqualsAndHashCode
 public class Seller {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    private String sellerName;
+  private String sellerName;
 
-    private String phoneNumber;
+  private String phoneNumber;
 
-    @Column(unique = true, nullable = false)
-    private String email;
-    private String password;
+  @Column(unique = true, nullable = false)
+  private String email;
+  private String password;
 
-    @Embedded
-    private BusinessDetails businessDetails = new BusinessDetails();
+  @Embedded
+  private BusinessDetails businessDetails = new BusinessDetails();
 
-    // for pure value object you never share or query on their own(like bank details - lives and dies inside a Seller)
-    @Embedded
-    private BankDetails bankDetails = new BankDetails();
+  // for pure value object you never share or query on their own(like bank details - lives and dies inside a Seller)
+  @Embedded
+  private BankDetailsEntity bankDetailsEntity = new BankDetailsEntity();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address pickupAddress = new Address();
+  @OneToOne(cascade = CascadeType.ALL)
+  private Address pickupAddress = new Address();
 
-    private String GSTIN; //??
+  private String GSTIN; //??
 
-    private UserRoles role = UserRoles.ROLE_SELLER;
-    private boolean isEmailVerified=false;
+  private UserRoles role = UserRoles.ROLE_SELLER;
+  private boolean isEmailVerified = false;
 
-    private AccountStatus accountStatus = AccountStatus.PENDING_VERIFICATION;
+  private AccountStatus accountStatus = AccountStatus.PENDING_VERIFICATION;
 
 }

@@ -1,9 +1,9 @@
 package com.georgina.farmshop.repository;
 
-import com.georgina.farmshop.model.PaymentOrder;
+import com.georgina.farmshop.model.PaymentOrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PaymentOrderRepository extends JpaRepository<PaymentOrder,Long> {
+public interface PaymentOrderRepository extends JpaRepository<PaymentOrderEntity, Long> {
 
-    PaymentOrder findByPaymentLinkId(String paymentId);
+  PaymentOrderEntity findByPaymentLinkId(String paymentId);
 }

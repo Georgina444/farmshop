@@ -1,4 +1,5 @@
 package com.georgina.farmshop.model;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,27 +11,27 @@ import lombok.*;
 @EqualsAndHashCode
 public class Address {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @ManyToOne
-    private User user;
+  @ManyToOne
+  private User user;
 
-    private String name;
+  private String name;
 
-    private String locality;
+  private String locality;
 
-    private String address;
+  private String address;
 
-    private String city;
+  private String city;
 
-    private String country;
+  private String country;
 
-    // postal Code
-    private String pinCode;
+  // postal Code
+  private String pinCode;
 
-    private String phoneNumber;
+  private String phoneNumber;
 
 
 }

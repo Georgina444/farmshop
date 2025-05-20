@@ -12,14 +12,14 @@ import lombok.*;
 @EqualsAndHashCode
 public class Deal {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    // which category are you using the discount on
-    private Integer discount;
+  // which category are you using the discount on
+  private Integer discount;
 
-    @OneToOne
-    private HomeCategory category;
+  @OneToOne
+  private HomeCategory category;
 
 }

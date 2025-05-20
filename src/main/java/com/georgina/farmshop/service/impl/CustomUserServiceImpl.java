@@ -20,43 +20,44 @@ import java.util.List;
 @Service
 public class CustomUserServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
-    private final SellerRepository sellerRepository;
-    // tells us to check the seller table
-    private static final String SELLER_PREFIX = "seller_";
+  // tells us to check the seller table
+  private static final String SELLER_PREFIX = "seller_";
+  private final UserRepository userRepository;
+  private final SellerRepository sellerRepository;
 
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    if (username.startsWith(SELLER_PREFIX)) {
+      String actualUsername = username.substring(SELLER_PREFIX.length());
+      Seller seller = sellerRepository.findByEmail(actualUsername);
 
-        if (username.startsWith(SELLER_PREFIX)) {
-            String actualUsername = username.substring(SELLER_PREFIX.length());
-            Seller seller = sellerRepository.findByEmail(actualUsername);
-
-            if (seller != null) {
-                return buildUserDetails(seller.getEmail(), seller.getPassword(), seller.getRole());
-            }
-        } else {
-            User user = userRepository.findByEmail(username);
-            if (user != null) {
-                return buildUserDetails(user.getEmail(), user.getPassword(), user.getRole());
-            }
-        }
-        throw new UsernameNotFoundException("User or Seller not found with this email: " + username);
+      if (seller != null) {
+        return buildUserDetails(seller.getEmail(), seller.getPassword(), seller.getRole());
+      }
+    } else {
+      User user = userRepository.findByEmail(username);
+      if (user != null) {
+        return buildUserDetails(user.getEmail(), user.getPassword(), user.getRole());
+      }
     }
+    throw new UsernameNotFoundException("User or Seller not found with this email: " + username);
+  }
 
-    private UserDetails buildUserDetails(String email, String password, UserRoles role) {
-        if(role==null) role= UserRoles.ROLE_CUSTOMER; // default role is customer
+  private UserDetails buildUserDetails(String email, String password, UserRoles role) {
+      if (role == null) {
+          role = UserRoles.ROLE_CUSTOMER; // default role is customer
+      }
 
-        List<GrantedAuthority> authorityList = new ArrayList<>();
-        authorityList.add(new SimpleGrantedAuthority(role.toString()));
+    List<GrantedAuthority> authorityList = new ArrayList<>();
+    authorityList.add(new SimpleGrantedAuthority(role.toString()));
 
-        return new org.springframework.security.core.userdetails.User(
-                email,
-                password,
-                authorityList);
+    return new org.springframework.security.core.userdetails.User(
+        email,
+        password,
+        authorityList);
 
-    }
-    }
+  }
+}
 
 

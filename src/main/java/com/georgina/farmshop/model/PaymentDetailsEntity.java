@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentDetails {
+public class PaymentDetailsEntity {
 
-    private String paymentId;
-    private PaymentStatus status;
+  private String paymentId;
+  private PaymentStatus status;
 }

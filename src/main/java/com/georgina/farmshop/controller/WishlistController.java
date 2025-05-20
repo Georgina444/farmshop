@@ -15,31 +15,31 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/wishlist")
 public class WishlistController {
 
-    private final WishlistService wishlistService;
-    private final UserService userService;
-    private final ProductService productService;
+  private final WishlistService wishlistService;
+  private final UserService userService;
+  private final ProductService productService;
 
-    @GetMapping()
-    public ResponseEntity<Wishlist> getWishlistByUserId(
-            @RequestHeader("Authorization") String jwt)throws Exception{
+  @GetMapping()
+  public ResponseEntity<Wishlist> getWishlistByUserId(
+      @RequestHeader("Authorization") String jwt) throws Exception {
 
-        User user = userService.findUserByJwtToken(jwt);
-        Wishlist wishlist = wishlistService.getWishlistByUserId(user);
-        return ResponseEntity.ok(wishlist);
-    }
+    User user = userService.findUserByJwtToken(jwt);
+    Wishlist wishlist = wishlistService.getWishlistByUserId(user);
+    return ResponseEntity.ok(wishlist);
+  }
 
-    @PostMapping("/add-product/{productId}")
-    public ResponseEntity<Wishlist> addProductToWishlist(
-            @PathVariable Long productId,
-            @RequestHeader("Authorization") String jwt) throws Exception{
+  @PostMapping("/add-product/{productId}")
+  public ResponseEntity<Wishlist> addProductToWishlist(
+      @PathVariable Long productId,
+      @RequestHeader("Authorization") String jwt) throws Exception {
 
-        Product product = productService.findProductById(productId);
-        User user = userService.findUserByJwtToken(jwt);
-        Wishlist updatedWishlist = wishlistService.addProductToWishlist(
-                user,
-                product
-        );
-        return ResponseEntity.ok(updatedWishlist);
-    }
+    Product product = productService.findProductById(productId);
+    User user = userService.findUserByJwtToken(jwt);
+    Wishlist updatedWishlist = wishlistService.addProductToWishlist(
+        user,
+        product
+    );
+    return ResponseEntity.ok(updatedWishlist);
+  }
 
 }

@@ -1,4 +1,4 @@
-package com.georgina.farmshop.request;
+package com.georgina.farmshop.model.request;
 
 import com.georgina.farmshop.domain.UserRoles;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginOtpRequest {
 
-    private String email;
-    private String otp;
-    private UserRoles role;
+  private String email;
+  private String otp;
+  private UserRoles role;
 
 }

@@ -6,7 +6,9 @@ import com.georgina.farmshop.model.Wishlist;
 
 public interface WishlistService {
 
-    Wishlist createWishlist(User user);
-    Wishlist getWishlistByUserId(User user);
-    Wishlist addProductToWishlist(User user, Product product);
+  Wishlist createWishlist(User user);
+
+  Wishlist getWishlistByUserId(User user);
+
+  Wishlist addProductToWishlist(User user, Product product);
 }

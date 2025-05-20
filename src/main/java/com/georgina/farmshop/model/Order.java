@@ -18,38 +18,38 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    private String orderId;
+  private String orderId;
 
-    @ManyToOne
-    private User user;
+  @ManyToOne
+  private User user;
 
-    private Long sellerId;
+  private Long sellerId;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItemList = new ArrayList<>();
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<OrderItem> orderItemList = new ArrayList<>();
 
-    @ManyToOne
-    private Address shippingAddress;
+  @ManyToOne
+  private Address shippingAddress;
 
-    @Embedded
-    private PaymentDetails paymentDetails = new PaymentDetails();
+  @Embedded
+  private PaymentDetailsEntity paymentDetailsEntity = new PaymentDetailsEntity();
 
-    private double totalMrpPrice;
-    private Integer totalSellingPrice;
+  private double totalMrpPrice;
+  private Integer totalSellingPrice;
 
-    private Integer discount;
+  private Integer discount;
 
-    private OrderStatus orderStatus;
-    private int totalItems;
+  private OrderStatus orderStatus;
+  private int totalItems;
 
-    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
+  private PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
-    private LocalDateTime dateOrdered = LocalDateTime.now();
-    private LocalDateTime dateDelivered = dateOrdered.plusDays(2);
+  private LocalDateTime dateOrdered = LocalDateTime.now();
+  private LocalDateTime dateDelivered = dateOrdered.plusDays(2);
 
 
 }

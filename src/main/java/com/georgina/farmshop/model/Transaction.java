@@ -12,20 +12,20 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Transaction{
+public class Transaction {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @ManyToOne
-    private User customer;
+  @ManyToOne
+  private User customer;
 
-    @OneToOne
-    private Order order;
+  @OneToOne
+  private Order order;
 
-    @ManyToOne
-    private Seller seller;
+  @ManyToOne
+  private Seller seller;
 
-    private LocalDateTime dateTime = LocalDateTime.now();
+  private LocalDateTime dateTime = LocalDateTime.now();
 }

@@ -16,25 +16,24 @@ import java.util.Set;
 public class Coupon {
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
 
-    private String code;
+  private String code;
 
-    private int discountPercentage;
+  private int discountPercentage;
 
-    private LocalDate validityStartDate;
-    private LocalDate validityEndDate;
+  private LocalDate validityStartDate;
+  private LocalDate validityEndDate;
 
-    private double minimumOrderValue;
-     // admin activates/deactivate the coupon
-    private boolean isActive = true;
+  private double minimumOrderValue;
+  // admin activates/deactivate the coupon
+  private boolean isActive = true;
 
-    @ManyToMany(mappedBy = "usedCoupons")
-    private Set<User> usedByUsers = new HashSet<>();
-
+  @ManyToMany(mappedBy = "usedCoupons")
+  private Set<User> usedByUsers = new HashSet<>();
 
 
 }

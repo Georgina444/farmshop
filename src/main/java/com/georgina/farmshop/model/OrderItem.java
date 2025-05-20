@@ -14,24 +14,24 @@ import lombok.*;
 public class OrderItem {
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @JsonIgnore
-    @ManyToOne
-    private Order order;
+  @JsonIgnore
+  @ManyToOne
+  private Order order;
 
-    @ManyToOne
-    private Product product;
+  @ManyToOne
+  private Product product;
 
-    private String size;
+  private String size;
 
-    private int quantity;
+  private int quantity;
 
-    private Integer sellingPrice;
-    private Integer mrpPrice;
+  private Integer sellingPrice;
+  private Integer mrpPrice;
 
-    private Long userId;
+  private Long userId;
 
 }

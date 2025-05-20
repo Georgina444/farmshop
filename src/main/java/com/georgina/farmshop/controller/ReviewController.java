@@ -1,18 +1,15 @@
 package com.georgina.farmshop.controller;
 
 
-import com.georgina.farmshop.exceptions.ProductException;
 import com.georgina.farmshop.model.Product;
 import com.georgina.farmshop.model.Review;
 import com.georgina.farmshop.model.User;
-import com.georgina.farmshop.request.CreateReviewRequest;
-import com.georgina.farmshop.response.ApiResponse;
+import com.georgina.farmshop.model.request.CreateReviewRequest;
+import com.georgina.farmshop.model.response.ApiResponse;
 import com.georgina.farmshop.service.ProductService;
 import com.georgina.farmshop.service.ReviewService;
 import com.georgina.farmshop.service.UserService;
-import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,64 +20,64 @@ import java.util.List;
 @RequestMapping("/api")
 public class ReviewController {
 
-    private final ReviewService reviewService;
-    private final UserService userService;
-    private final ProductService productService;
+  private final ReviewService reviewService;
+  private final UserService userService;
+  private final ProductService productService;
 
-    @GetMapping("/products/{productId}/reviews")
-    public ResponseEntity<List<Review>> getReviewsByProductId(
-            @PathVariable Long productId){
+  @GetMapping("/products/{productId}/reviews")
+  public ResponseEntity<List<Review>> getReviewsByProductId(
+      @PathVariable Long productId) {
 
-        List<Review> reviews = reviewService.getReviewByProductId(productId);
-        return ResponseEntity.ok(reviews);
-    }
+    List<Review> reviews = reviewService.getReviewByProductId(productId);
+    return ResponseEntity.ok(reviews);
+  }
 
-    @PostMapping("/products/{productId}/reviews")
-    public ResponseEntity<Review> writeReview(
-            @RequestBody CreateReviewRequest req,
-            @PathVariable Long productId,
-            @RequestHeader("Authorization") String jwt) throws Exception {
+  @PostMapping("/products/{productId}/reviews")
+  public ResponseEntity<Review> writeReview(
+      @RequestBody CreateReviewRequest req,
+      @PathVariable Long productId,
+      @RequestHeader("Authorization") String jwt) throws Exception {
 
-        User user = userService.findUserByJwtToken(jwt);
-        Product product = productService.findProductById(productId);
+    User user = userService.findUserByJwtToken(jwt);
+    Product product = productService.findProductById(productId);
 
-        Review review = reviewService.createReview(req, user, product);
+    Review review = reviewService.createReview(req, user, product);
 
-        return ResponseEntity.ok(review);
-    }
+    return ResponseEntity.ok(review);
+  }
 
-    @PatchMapping("/reviews/{reviewId}")
-    public ResponseEntity<Review> updateReview(
-            @RequestBody CreateReviewRequest req,
-            @PathVariable Long reviewId,
-            @RequestHeader("Authorization") String jwt)
-        throws Exception {
+  @PatchMapping("/reviews/{reviewId}")
+  public ResponseEntity<Review> updateReview(
+      @RequestBody CreateReviewRequest req,
+      @PathVariable Long reviewId,
+      @RequestHeader("Authorization") String jwt)
+      throws Exception {
 
-        User user = userService.findUserByJwtToken(jwt);
+    User user = userService.findUserByJwtToken(jwt);
 
-        Review review = reviewService.updateReview(
-                reviewId,
-                req.getReviewText(),
-                req.getReviewRating(),
-                user.getId()
-        );
-        return ResponseEntity.ok(review);
-    }
+    Review review = reviewService.updateReview(
+        reviewId,
+        req.getReviewText(),
+        req.getReviewRating(),
+        user.getId()
+    );
+    return ResponseEntity.ok(review);
+  }
 
-    @DeleteMapping("/reviews/{reviewId}")
-    public ResponseEntity<ApiResponse> deleteReview(
-            @PathVariable Long reviewId,
-            @RequestHeader("Authorization")String jwt)
-        throws Exception{
+  @DeleteMapping("/reviews/{reviewId}")
+  public ResponseEntity<ApiResponse> deleteReview(
+      @PathVariable Long reviewId,
+      @RequestHeader("Authorization") String jwt)
+      throws Exception {
 
-        User user = userService.findUserByJwtToken(jwt);
+    User user = userService.findUserByJwtToken(jwt);
 
-        reviewService.deleteReview(reviewId, user.getId());
-        ApiResponse res = new ApiResponse();
-        res.setMessage("Review deleted successfully.");
+    reviewService.deleteReview(reviewId, user.getId());
+    ApiResponse res = new ApiResponse();
+    res.setMessage("Review deleted successfully.");
 
-        return ResponseEntity.ok(res);
-    }
+    return ResponseEntity.ok(res);
+  }
 
 
 }

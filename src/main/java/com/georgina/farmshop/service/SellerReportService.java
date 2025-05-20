@@ -6,6 +6,7 @@ import com.georgina.farmshop.model.SellerReport;
 public interface SellerReportService {
 
 
-    SellerReport getSellerReport(Seller seller);
-    SellerReport updateSellerReport(SellerReport sellerReport);
+  SellerReport getSellerReport(Seller seller);
+
+  SellerReport updateSellerReport(SellerReport sellerReport);
 }

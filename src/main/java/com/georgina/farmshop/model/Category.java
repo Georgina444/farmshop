@@ -1,4 +1,5 @@
 package com.georgina.farmshop.model;
+
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.NotNull;
@@ -11,25 +12,25 @@ import jakarta.validation.constraints.NotNull;
 @EqualsAndHashCode
 public class Category {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    private String categoryName;
+  private String categoryName;
 
 
-    @NotNull
-    @Column(unique = true)
-    private String categoryId;
+  @NotNull
+  @Column(unique = true)
+  private String categoryId;
 
-    @ManyToOne
-    private Category parentCategory;
+  @ManyToOne
+  private Category parentCategory;
 
-    @NotNull
-    private Integer level;
+  @NotNull
+  private Integer level;
 
-    // level 1: milk products, herbs, eggs, meat, veggies, fruits
-    // level 2: milk products -> cow, sheep, goat
-    // level 3: cow -> milk, cheese, cream cheese ..
+  // level 1: milk products, herbs, eggs, meat, veggies, fruits
+  // level 2: milk products -> cow, sheep, goat
+  // level 3: cow -> milk, cheese, cream cheese ..
 
 }
