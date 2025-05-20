@@ -7,6 +7,7 @@ import com.georgina.farmshop.model.User;
 import com.georgina.farmshop.repository.CartItemRepository;
 import com.georgina.farmshop.repository.CartRepository;
 import com.georgina.farmshop.service.CartService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,24 +22,28 @@ public class CartServiceImpl implements CartService {
   public CartItem addCartItem(User user, Product product, String size, int quantity) {
 
     Cart cart = findUserCart(user);
-    CartItem isPresent = cartItemRepository.findByCartAndProductAndSize(cart, product, size);
 
-    if (isPresent == null) {
-      CartItem cartItem = new CartItem();
-      cartItem.setProduct(product);
-      cartItem.setQuantity(quantity);
-      cartItem.setUserId(user.getId());
-      cartItem.setSize(size);
+    Optional<CartItem> cartItemOpt =
+        cartItemRepository.findByCartAndProductAndSize(cart, product, size);
 
-      int totalPrice = quantity * product.getSellingPrice();
-      cartItem.setSellingPrice(totalPrice);
-      cartItem.setMrpPrice(quantity * product.getMrpPrice());
-
-      cart.getCartItems().add(cartItem);
-      cartItem.setCart(cart);
-      return cartItemRepository.save(cartItem);
+    if (cartItemOpt.isPresent()) {
+      return cartItemOpt.get();
     }
-    return isPresent;
+
+    CartItem cartItem = new CartItem();
+    cartItem.setProduct(product);
+    cartItem.setQuantity(quantity);
+    cartItem.setUserId(user.getId());
+    cartItem.setSize(size);
+
+    int totalPrice = quantity * product.getSellingPrice();
+    cartItem.setSellingPrice(totalPrice);
+    cartItem.setMrpPrice(quantity * product.getMrpPrice());
+
+    cart.getCartItems().add(cartItem);
+    cartItem.setCart(cart);
+
+    return cartItemRepository.save(cartItem);
   }
 
   @Override
