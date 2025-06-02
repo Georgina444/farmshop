@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Deal {
+public class DealEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

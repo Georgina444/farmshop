@@ -1,17 +1,18 @@
 package com.georgina.farmshop.service;
 
-import com.georgina.farmshop.model.Deal;
+import com.georgina.farmshop.dto.DealModel;
+import com.georgina.farmshop.model.DealEntity;
 
 import java.util.List;
 
 public interface DealService {
 
-  List<Deal> getDeals();
+  List<DealModel> getDeals();
 
   // Admin can:
-  Deal createDeal(Deal deal);
+  DealModel createDeal(DealModel dealModel);
 
-  Deal updateDeal(Deal deal, Long id) throws Exception;
+  DealModel updateDeal(DealModel dealModel, Long id) throws Exception;
 
   void deleteDeal(Long id) throws Exception;
 }

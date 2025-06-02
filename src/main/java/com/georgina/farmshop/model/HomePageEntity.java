@@ -22,7 +22,7 @@ public class HomePageEntity {
   private List<HomeCategory> shopByCategories;
   private List<HomeCategory> boxes;
   private List<HomeCategory> dealCategories;
-  private List<Deal> deals;
+  private List<DealEntity> dealEntities;
 
 
 }

@@ -1,7 +1,7 @@
 package com.georgina.farmshop.service.impl;
 
 import com.georgina.farmshop.domain.HomeCategorySection;
-import com.georgina.farmshop.model.Deal;
+import com.georgina.farmshop.model.DealEntity;
 import com.georgina.farmshop.model.HomeCategory;
 import com.georgina.farmshop.model.HomePageEntity;
 import com.georgina.farmshop.repository.DealRepository;
@@ -42,23 +42,23 @@ public class HomeServiceImpl implements HomeService {
         .filter(homeCategory -> homeCategory.getSection() == HomeCategorySection.DEALS)
         .toList();
 
-    List<Deal> createdDeals = new ArrayList<>();
+    List<DealEntity> createdDealEntities = new ArrayList<>();
 
       if (dealRepository.findAll().isEmpty()) {
-          List<Deal> deals = allCategories.stream()
+          List<DealEntity> dealEntities = allCategories.stream()
               .filter(homeCategory -> homeCategory.getSection() == HomeCategorySection.DEALS)
-              .map(homeCategory -> new Deal(null, 10, homeCategory))
+              .map(homeCategory -> new DealEntity(null, 10, homeCategory))
               .collect(Collectors.toList());
-          createdDeals = dealRepository.saveAll(deals);
+          createdDealEntities = dealRepository.saveAll(dealEntities);
       } else {
-          createdDeals = dealRepository.findAll();
+          createdDealEntities = dealRepository.findAll();
       }
 
     HomePageEntity homePageEntity = new HomePageEntity();
     homePageEntity.setGrid(gridCategories);
     homePageEntity.setShopByCategories(shopByCategories);
     homePageEntity.setBoxes(boxesCategories);
-    homePageEntity.setDeals(createdDeals);
+    homePageEntity.setDealEntities(createdDealEntities);
 
     return homePageEntity;
   }

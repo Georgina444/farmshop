@@ -1,12 +1,14 @@
 package com.georgina.farmshop.controller;
 
-import com.georgina.farmshop.model.Deal;
+import com.georgina.farmshop.dto.DealModel;
 import com.georgina.farmshop.model.response.ApiResponse;
 import com.georgina.farmshop.service.DealService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,34 +17,36 @@ public class DealController {
 
   private final DealService dealService;
 
-  @PostMapping
-  public ResponseEntity<Deal> createDeals(
-      @RequestBody Deal deals
-  ) {
-    Deal createdDeals = dealService.createDeal(deals);
-    return new ResponseEntity<>(createdDeals, HttpStatus.ACCEPTED);
+  // list all deals
+  @GetMapping
+  public ResponseEntity<List<DealModel>> getAllDeals() {
+    List<DealModel> deals = dealService.getDeals();
+    return ResponseEntity.ok(deals);
   }
 
-  @PatchMapping("/{id}")
-  public ResponseEntity<Deal> updateDeal(
-      @PathVariable Long id,
-      @RequestBody Deal deal) throws Exception {
+  // create a new deal from dto
+  @PostMapping
+  public ResponseEntity<DealModel> createDeal(@RequestBody DealModel dealModel) {
+    DealModel created = dealService.createDeal(dealModel);
+    return new ResponseEntity<>(created, HttpStatus.CREATED);
+  }
 
-    Deal updatedDeal = dealService.updateDeal(deal, id);
-    return ResponseEntity.ok(updatedDeal);
+  // update existing deal from dto
+  @PatchMapping("/{id}")
+  public ResponseEntity<DealModel> updateDeal(
+      @PathVariable Long id,
+      @RequestBody DealModel dealModel
+  ) throws Exception {
+    DealModel updated = dealService.updateDeal(dealModel, id);
+    return ResponseEntity.ok(updated);
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<ApiResponse> deleteDeals(
-      @PathVariable Long id
-  ) throws Exception {
+  public ResponseEntity<ApiResponse> deleteDeal(@PathVariable Long id) throws Exception {
     dealService.deleteDeal(id);
-
-    ApiResponse apiResponse = new ApiResponse();
-    apiResponse.setMessage("Deal deleted successfully.");
-
-    return new ResponseEntity<>(apiResponse, HttpStatus.ACCEPTED);
+    ApiResponse res = new ApiResponse();
+    res.setMessage("Deal deleted successfully.");
+    return ResponseEntity.ok(res);
   }
-
-
 }
+
